@@ -1,0 +1,9 @@
+employee_id,username,name_surname,department,status
+10001,ayse.aydin,Ayşe Aydın,data,active
+10002,mehmet.kaya,Mehmet Kaya,dev,active
+10003,elif.demir,Elif Demir,hr,active
+10004,can.ozkan,Can Özkan,marketing,active
+10005,zeynep.sari,Zeynep Sarı,finance,active
+10006,burak.yilmaz,Burak Yılmaz,dev,terminated
+10007,deniz.arslan,Deniz Arslan,data,active
+10008,mert.bolukbasi,Mert Bölükbaşı,dev,active
