@@ -26,7 +26,6 @@ setup_environment() {
 # Commands: date, echo >>
 log_message() {
     local message=$1
-
 }
 
 # Sort employees.csv and last_employees.csv files. 
@@ -108,3 +107,5 @@ main() {
     update_snapshot
     cleanup
 }
+
+main
