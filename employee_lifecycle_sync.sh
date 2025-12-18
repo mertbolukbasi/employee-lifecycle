@@ -18,14 +18,31 @@ REPORTS_DIR="./output/reports"
 #
 # Commands: mkdir -p
 setup_environment() {
+    mkdir -p "$ARCHIVE_DIR"
+    mkdir -p "$LOG_DIR"
+    mkdir -p "$REPORTS_DIR"
 
+    if [ ! -f "$LOG_DIR/lifecycle_sync.log" ]; then
+        touch "$LOG_DIR/lifecycle_sync.log"
+    fi
+
+    log_message "INFO" "Environment setup complete. Directories are ready."
 }
 
 # The log file records the operation along with its timestamp.
 # YYYY-MM-DD HH:MM:SS | [LEVEL] | Message
 # Commands: date, echo >>
 log_message() {
-    local message=$1
+    local level=$1
+    local message=$2
+    local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+    local log_file="$LOG_DIR/lifecycle_sync.log"
+
+    # Format: YYYY-MM-DD HH:MM:SS | [LEVEL] | Message
+    local formatted_log="$timestamp | [$level] | $message"
+
+    echo "$formatted_log"
+    echo "$formatted_log" >> "$log_file"
 }
 
 # Sort employees.csv and last_employees.csv files. 
