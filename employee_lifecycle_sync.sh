@@ -69,6 +69,32 @@ add_user() {
     local departmant=$4
     local status=$5
 
+    if [ "$status" != "active" ]; then
+        log_message "INFO" "Skipping user $username (Status: $status)"
+        return
+    fi
+
+    if ! getent group "$department" >/dev/null; then
+        groupadd "$department"
+        if [ $? -eq 0 ]; then
+            log_message "INFO" "Group '$department' created."
+        else
+            log_message "ERROR" "Failed to create group '$department'."
+            return
+        fi
+    fi
+
+    if id "$username" >/dev/null 2>&1; then
+        log_message "WARN" "User $username already exists. Updating groups..."
+        usermod -aG "$department" "$username"
+    else
+        useradd -m -s /bin/bash -c "$name_surname" -G "$department" "$username" 
+        if [ $? -eq 0 ]; then
+            log_message "SUCCESS" "User $username added to system and group $department."
+        else
+            log_message "ERROR" "Failed to add user $username."
+        fi
+    fi
     #use log_message function at the end.
 }
 
@@ -79,7 +105,36 @@ add_user() {
 remove_user() {
     local username=$1
 
-    #use log_message function at the end.
+    if ! id "$username" >/dev/null 2>&1; then
+        log_message "WARN" "User $username does not exist. Skipping removal."
+        return
+    fi
+
+    local home_dir
+    home_dir=$(getent passwd "$username" | cut -d: -f6)
+    
+    local timestamp
+    timestamp=$(date "+%Y%m%d_%H%M%S")
+    
+    local archive_name="${username}_home_${timestamp}.tar.gz"
+
+    if [ -d "$home_dir" ]; then
+        tar -czf "$ARCHIVE_DIR/$archive_name" "$home_dir" 2>/dev/null
+        if [ $? -eq 0 ]; then
+             log_message "INFO" "Home directory archived: $archive_name"
+        else
+             log_message "ERROR" "Failed to archive home directory for $username."
+        fi
+    else
+        log_message "WARN" "Home directory not found for $username. Skipping backup."
+    fi
+
+    usermod -L "$username"
+    if [ $? -eq 0 ]; then
+        log_message "SUCCESS" "User $username account locked."
+    else
+        log_message "ERROR" "Failed to lock account for $username."
+    fi
 }
 
 # Generate repot that includes date, statistics.
