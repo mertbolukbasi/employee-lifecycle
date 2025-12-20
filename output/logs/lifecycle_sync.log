@@ -1,0 +1,24 @@
+2025-12-20 05:09:46 | [INFO] | CSV files sorted.
+2025-12-20 05:09:46 | [ERROR] | Failed to create group ''.
+2025-12-20 05:09:46 | [WARN] | User burak.yilmaz does not exist. Skipping removal.
+2025-12-20 05:09:46 | [INFO] | Change detection was completed.
+2025-12-20 05:09:46 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_050946.txt
+2025-12-20 05:09:46 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 05:09:46 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 05:09:46 | [INFO] | Temporary files cleaned up. Cycle finished.
+2025-12-20 05:12:37 | [INFO] | CSV files sorted.
+2025-12-20 05:12:37 | [ERROR] | Failed to create group ''.
+2025-12-20 05:12:37 | [WARN] | User burak.yilmaz does not exist. Skipping removal.
+2025-12-20 05:12:37 | [INFO] | Change detection was completed.
+2025-12-20 05:12:37 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_051237.txt
+2025-12-20 05:12:37 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 05:12:37 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 05:12:37 | [INFO] | Temporary files cleaned up.
+2025-12-20 05:12:59 | [INFO] | CSV files sorted.
+2025-12-20 05:12:59 | [WARN] | User mert.bolukbasi does not exist. Skipping removal.
+2025-12-20 05:12:59 | [WARN] | User burak.yilmaz does not exist. Skipping removal.
+2025-12-20 05:12:59 | [INFO] | Change detection was completed.
+2025-12-20 05:12:59 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_051259.txt
+2025-12-20 05:12:59 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 05:12:59 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 05:12:59 | [INFO] | Temporary files cleaned up.

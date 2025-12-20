@@ -49,6 +49,15 @@ log_message() {
 # Use 2 temp files that name are sorted_current.txt and sorted_last.txt
 read_and_normalize_csv() {
 
+    awk -F',' 'NR>1 {print $2}' "$CURRENT_FILE" | tr -d ' ' | sort > sorted_current.txt
+
+    if [ -f "$SNAPSHOT_FILE" ]; then
+        awk -F',' 'NR>1 {print $2}' "$SNAPSHOT_FILE" | tr -d ' ' | sort > sorted_last.txt
+    else
+        touch sorted_last.txt
+    fi
+
+    log_message "INFO" "CSV files sorted."
 }
 
 # Detect changes as added, removed or status check.
@@ -56,6 +65,52 @@ read_and_normalize_csv() {
 # Commands: comm -13 (Only exists on new file), comm =23 (Only exists on old file)
 detect_changes() {
 
+    comm -13 sorted_last.txt sorted_current.txt > temp_added_users.txt
+    > added_list.txt
+
+    while read -r username; do
+        if [ -n "$username" ]; then
+            line=$(grep -m 1 ",$username," "$CURRENT_FILE")
+            
+            id=$(echo "$line" | awk -F',' '{print $1}' | tr -d ' ')
+            name=$(echo "$line" | awk -F',' '{print $3}' | tr -d ' ')
+            dept=$(echo "$line" | awk -F',' '{print $4}' | tr -d ' ')
+            status=$(echo "$line" | awk -F',' '{print $5}' | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+
+            add_user "$id" "$username" "$name" "$dept" "$status"
+
+            if [ "$status" == "active" ]; then
+                echo "$username, $dept" >> added_list.txt
+            fi
+        fi
+    done < temp_added_users.txt
+    
+    
+    comm -23 sorted_last.txt sorted_current.txt > temp_removed_users.txt
+    > removed_list.txt
+    while read -r username; do
+        if [ -n "$username" ]; then
+            dept=$(grep -m 1 ",$username," "$SNAPSHOT_FILE" | awk -F',' '{print $4}' | tr -d ' ')
+            
+            remove_user "$username"
+            
+            echo "$username, ${dept:-unknown}" >> removed_list.txt
+        fi
+    done < temp_removed_users.txt
+
+
+    > terminated_list.txt
+    grep -i "terminated" "$CURRENT_FILE" | awk -F',' '{print $2}' | tr -d ' ' > temp_terminated_users.txt
+    while read -r username; do
+        if ! grep -q "$username" temp_removed_users.txt; then
+            
+            dept=$(grep -m 1 ",$username," "$CURRENT_FILE" | awk -F',' '{print $4}' | tr -d ' ')
+            remove_user "$username"
+            echo "$username, $dept" >> terminated_list.txt
+        fi
+    done < temp_terminated_users.txt
+
+    log_message "INFO" "Change detection was completed."
 }
 
 # If status == active, add user.
@@ -95,7 +150,6 @@ add_user() {
             log_message "ERROR" "Failed to add user $username."
         fi
     fi
-    #use log_message function at the end.
 }
 
 # Find user. (getent passwd)
@@ -251,8 +305,9 @@ if [ -f "$CURRENT_FILE" ]; then
 clean_temp_files() {
     rm -f sorted_current.txt sorted_last.txt
     rm -f added_list.txt removed_list.txt terminated_list.txt
+    rm -f temp_added_users.txt temp_removed_users.txt temp_terminated_users.txt
 
-    log_message "INFO" "Temporary files cleaned up. Cycle finished."
+    log_message "INFO" "Temporary files cleaned up."
 }
 
 main() {
@@ -274,7 +329,7 @@ main() {
     generate_report
     send_email_report
     update_snapshot
-    cleanup
+    clean_temp_files
 }
 
 main
