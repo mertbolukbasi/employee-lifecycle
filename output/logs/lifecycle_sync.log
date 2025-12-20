@@ -22,3 +22,42 @@
 2025-12-20 05:12:59 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
 2025-12-20 05:12:59 | [INFO] | Snapshot updated: ./output/last_employees.csv
 2025-12-20 05:12:59 | [INFO] | Temporary files cleaned up.
+2025-12-20 21:18:09 | [INFO] | CSV files sorted.
+2025-12-20 21:18:09 | [WARN] | User burak.yilmaz does not exist. Skipping removal.
+2025-12-20 21:18:09 | [INFO] | Change detection was completed.
+2025-12-20 21:18:09 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_211809.txt
+2025-12-20 21:18:09 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 21:18:09 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 21:18:09 | [INFO] | Temporary files cleaned up.
+2025-12-20 21:38:42 | [INFO] | CSV files sorted.
+2025-12-20 21:38:42 | [INFO] | Change detection was completed.
+2025-12-20 21:38:42 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_213842.txt
+2025-12-20 21:38:42 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 21:38:42 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 21:38:42 | [INFO] | Temporary files cleaned up.
+2025-12-20 21:40:27 | [INFO] | CSV files sorted.
+2025-12-20 21:40:27 | [INFO] | Change detection was completed.
+2025-12-20 21:40:27 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_214027.txt
+2025-12-20 21:40:27 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 21:40:27 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 21:40:27 | [INFO] | Temporary files cleaned up.
+2025-12-20 21:48:02 | [INFO] | CSV files sorted.
+2025-12-20 21:48:02 | [INFO] | Change detection was completed.
+2025-12-20 21:48:02 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_214802.txt
+2025-12-20 21:48:02 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 21:48:02 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 21:48:02 | [INFO] | Temporary files cleaned up.
+2025-12-20 21:48:49 | [INFO] | CSV files sorted.
+2025-12-20 21:48:49 | [INFO] | Change detection was completed.
+2025-12-20 21:48:49 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_214849.txt
+2025-12-20 21:48:49 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 21:48:49 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 21:48:49 | [INFO] | Temporary files cleaned up.
+2025-12-20 21:57:03 | [INFO] | CSV files sorted.
+2025-12-20 21:57:03 | [INFO] | Group 'data' created.
+2025-12-20 21:57:03 | [SUCCESS] | User deniz.arslan added to system and group data.
+2025-12-20 21:57:03 | [INFO] | Change detection was completed.
+2025-12-20 21:57:03 | [INFO] | Manager report generated: ./output/reports/manager_update_20251220_215703.txt
+2025-12-20 21:57:03 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-20 21:57:03 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-20 21:57:03 | [INFO] | Temporary files cleaned up.

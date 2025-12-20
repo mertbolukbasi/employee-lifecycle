@@ -49,10 +49,10 @@ log_message() {
 # Use 2 temp files that name are sorted_current.txt and sorted_last.txt
 read_and_normalize_csv() {
 
-    awk -F',' 'NR>1 {print $2}' "$CURRENT_FILE" | tr -d ' ' | sort > sorted_current.txt
+    awk -F',' 'NR>1 {print $2}' "$CURRENT_FILE" | tr -d '\r ' | sort > sorted_current.txt
 
     if [ -f "$SNAPSHOT_FILE" ]; then
-        awk -F',' 'NR>1 {print $2}' "$SNAPSHOT_FILE" | tr -d ' ' | sort > sorted_last.txt
+        awk -F',' 'NR>1 {print $2}' "$SNAPSHOT_FILE" | tr -d '\r ' | sort > sorted_last.txt
     else
         touch sorted_last.txt
     fi
@@ -64,18 +64,19 @@ read_and_normalize_csv() {
 # If it detects adding, call add_user otherwise call remove_user function.
 # Commands: comm -13 (Only exists on new file), comm =23 (Only exists on old file)
 detect_changes() {
-
-    comm -13 sorted_last.txt sorted_current.txt > temp_added_users.txt
+ comm -13 sorted_last.txt sorted_current.txt > temp_added_users.txt
     > added_list.txt
 
     while read -r username; do
+
+        username=$(echo "$username" | tr -d '[:space:]')
+
         if [ -n "$username" ]; then
             line=$(grep -m 1 ",$username," "$CURRENT_FILE")
-            
-            id=$(echo "$line" | awk -F',' '{print $1}' | tr -d ' ')
-            name=$(echo "$line" | awk -F',' '{print $3}' | tr -d ' ')
-            dept=$(echo "$line" | awk -F',' '{print $4}' | tr -d ' ')
-            status=$(echo "$line" | awk -F',' '{print $5}' | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+            id=$(echo "$line" | awk -F',' '{print $1}' | tr -d '[:space:]')
+            name=$(echo "$line" | awk -F',' '{print $3}' | xargs)
+            dept=$(echo "$line" | awk -F',' '{print $4}' | tr -d '[:space:]')
+            status=$(echo "$line" | awk -F',' '{print $5}' | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
 
             add_user "$id" "$username" "$name" "$dept" "$status"
 
@@ -84,27 +85,29 @@ detect_changes() {
             fi
         fi
     done < temp_added_users.txt
-    
-    
+
     comm -23 sorted_last.txt sorted_current.txt > temp_removed_users.txt
     > removed_list.txt
     while read -r username; do
+        username=$(echo "$username" | tr -d '[:space:]')
         if [ -n "$username" ]; then
-            dept=$(grep -m 1 ",$username," "$SNAPSHOT_FILE" | awk -F',' '{print $4}' | tr -d ' ')
-            
+            dept=$(grep -m 1 ",$username," "$SNAPSHOT_FILE" | awk -F',' '{print $4}' | tr -d '[:space:]')
+
             remove_user "$username"
-            
+
             echo "$username, ${dept:-unknown}" >> removed_list.txt
         fi
     done < temp_removed_users.txt
 
-
     > terminated_list.txt
-    grep -i "terminated" "$CURRENT_FILE" | awk -F',' '{print $2}' | tr -d ' ' > temp_terminated_users.txt
+
+    grep -i "terminated" "$CURRENT_FILE" | awk -F',' '{print $2}' | tr -d '[:space:]' > temp_terminated_users.txt
     while read -r username; do
+        username=$(echo "$username" | tr -d '[:space:]')
+
         if ! grep -q "$username" temp_removed_users.txt; then
-            
-            dept=$(grep -m 1 ",$username," "$CURRENT_FILE" | awk -F',' '{print $4}' | tr -d ' ')
+
+            dept=$(grep -m 1 ",$username," "$CURRENT_FILE" | awk -F',' '{print $4}' | tr -d '[:space:]')
             remove_user "$username"
             echo "$username, $dept" >> terminated_list.txt
         fi
@@ -121,7 +124,7 @@ add_user() {
     local employee_id=$1
     local username=$2
     local name_surname=$3
-    local departmant=$4
+    local department=$4
     local status=$5
 
     if [ "$status" != "active" ]; then
@@ -143,7 +146,7 @@ add_user() {
         log_message "WARN" "User $username already exists. Updating groups..."
         usermod -aG "$department" "$username"
     else
-        useradd -m -s /bin/bash -c "$name_surname" -G "$department" "$username" 
+        useradd -m -s /bin/bash -c "$name_surname" -G "$department" "$username"
         if [ $? -eq 0 ]; then
             log_message "SUCCESS" "User $username added to system and group $department."
         else
@@ -159,6 +162,8 @@ add_user() {
 remove_user() {
     local username=$1
 
+    username=$(echo "$username" | tr -d '[:space:]')
+
     if ! id "$username" >/dev/null 2>&1; then
         log_message "WARN" "User $username does not exist. Skipping removal."
         return
@@ -166,10 +171,10 @@ remove_user() {
 
     local home_dir
     home_dir=$(getent passwd "$username" | cut -d: -f6)
-    
+
     local timestamp
     timestamp=$(date "+%Y%m%d_%H%M%S")
-    
+
     local archive_name="${username}_home_${timestamp}.tar.gz"
 
     if [ -d "$home_dir" ]; then
