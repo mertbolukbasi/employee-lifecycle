@@ -43,7 +43,16 @@ employee_id,username,name_surname,department,status
 10006,burak.yilmaz,Burak Yılmaz,dev,terminated
 ```
 
-## How to Run
+**Download Mailutils:**
+
+```bash
+sudo apt update
+sudo apt install mailutils
+```
+
+You can use Local only option.
+
+## 🏃 How to Run
 
 ```bash
 chmod +x employee_lifecycle_sync.sh
