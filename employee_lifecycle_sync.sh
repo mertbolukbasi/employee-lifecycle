@@ -316,6 +316,8 @@ clean_temp_files() {
 
 main() {
 
+    setup_environment
+
     # If last_exmployees.csv does not exist, create a new csv file.
     if [ ! -f "$SNAPSHOT_FILE" ]; then
         touch "$SNAPSHOT_FILE"
