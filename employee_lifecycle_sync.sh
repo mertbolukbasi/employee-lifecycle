@@ -6,6 +6,7 @@ ARCHIVE_DIR="./output/archives"
 LOG_DIR="./output/logs"
 REPORTS_DIR="./output/reports"
 
+
 # Controls directory, if any file does not exist, you should create.
 #employee-lifecycle/
 #├── output/
@@ -274,8 +275,6 @@ generate_report() {
 # Command: mail -s "Subject" manager@email.com < report.txt.
 send_email_report() {
 
-    # Proje sunumunda "kendi üniversite emailinizi kullanabilirsiniz" deniyor
-    # Test için "root" veya kendi emailini yazabilirsin.
     local recipient="oguzhanaydin@stu.khas.edu.tr"
     local subject="Employee Lifecycle Update - $(date +%Y-%m-%d)"
 
