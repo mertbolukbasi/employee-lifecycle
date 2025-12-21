@@ -142,3 +142,9 @@
 2025-12-21 18:41:11 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
 2025-12-21 18:41:11 | [INFO] | Snapshot updated: ./output/last_employees.csv
 2025-12-21 18:41:11 | [INFO] | Temporary files cleaned up.
+2025-12-21 19:14:27 | [INFO] | CSV files sorted.
+2025-12-21 19:14:27 | [INFO] | Change detection was completed.
+2025-12-21 19:14:27 | [INFO] | Manager report generated: ./output/reports/manager_update_20251221_191427.txt
+2025-12-21 19:14:27 | [ERROR] | Failed to send email. Ensure 'mailutils' is installed.
+2025-12-21 19:14:27 | [INFO] | Snapshot updated: ./output/last_employees.csv
+2025-12-21 19:14:27 | [INFO] | Temporary files cleaned up.

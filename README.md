@@ -6,8 +6,11 @@ This is an enterprise-grade automation script that bridges HR systems with IT in
 Linux user accounts based on employee data from CSV files.
 
 **Onboarding:** It creates user accounts and department groups for new and active employees.
+
 **Offboarding:** I locks the accounts of employees who have been removed from list or whose status is "terminated" and archives their home directories.
+
 **State Management:** It uses snapshot that is "last_employees.csv", to monitor system status and detect changes.
+
 **Report:**: It generates detailed reports for managers and sends email.
 
 ## 📂 Directory Structure
